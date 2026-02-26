@@ -45,7 +45,8 @@ public class Program
         TimeSpan difference = endDate - startDate;
 
         Console.WriteLine($"Days: {difference.Days}");
-        Console.WriteLine($"Hours: {difference.Hours}");
+        Console.WriteLine($"Hours: {difference.Hours}"); // 0 hours because the difference is exactly 25 days, so there are no additional hours beyond the full days.
+        Console.WriteLine($"Total hours: {difference.TotalHours}"); // 25 days x 24 hours = 600 hours
 
         //Compare two dates
         DateTime deadLine = new DateTime(2026, 02, 28);
@@ -97,8 +98,30 @@ public class Program
             Console.WriteLine("Incorrect format");
         }
 
+        //TimeSpan represents a time interval, it can be used to represent the difference between two dates or a specific duration of time.
 
+        //Parts: days, hours, minutes, seconds, milliseconds
+        TimeSpan timeSpan = new TimeSpan(1, 30, 0); // 1 hour and 30 minutes
 
+        Console.WriteLine($"TimeSpan Days: {timeSpan.Days}");
+        Console.WriteLine($"TimeSpan Hours: {timeSpan.Hours}");
 
+        //Simulate a cooldown for an ability in a game
+        DateTime lastUseAbility = DateTime.UtcNow.AddSeconds(-22); // Simulate that the ability was last used 22 seconds ago
+
+        //TimeSpan cooldown = TimeSpan.FromMinutes(2); // Cooldown of 2 minutes
+        TimeSpan cooldown = TimeSpan.FromSeconds(90); // Cooldown of 1 minute and 30 seconds
+
+        TimeSpan timeSinceLastUse = DateTime.UtcNow - lastUseAbility; // Calculate the time since the last use of the ability
+
+        if (timeSinceLastUse >= cooldown)
+        {
+            Console.WriteLine("Your ability is ready");
+        }
+        else
+        {
+            TimeSpan timeLeft = cooldown - timeSinceLastUse;
+            Console.WriteLine($"You must wait {timeLeft.Minutes} minutes and {timeLeft.Seconds} seconds.");
+        }
     }
 }
