@@ -123,5 +123,31 @@ public class Program
             TimeSpan timeLeft = cooldown - timeSinceLastUse;
             Console.WriteLine($"You must wait {timeLeft.Minutes} minutes and {timeLeft.Seconds} seconds.");
         }
+
+        //DateTimeOffset is a structure that represents a point in time, typically expressed as a date and time of day, with an offset from Coordinated Universal Time (UTC).
+        //It is used to represent dates and times in a way that is independent of time zones.
+
+        /* DateTime vs DateTimeOffset:
+         * DateTime -> Barcelona 18:00 / New York 12:00 (both times are the same moment, but they are represented differently because they are in different time zones)
+         * DateTimeOffset -> Barcelona 18:00 +01:00 / New York 12:00 -05:00 (both times are the same moment, but they are represented with their respective offsets from UTC, so we can know the exact time in both locations)
+         * Barcelona 18:00 - 1 hour (offset) = 17:00 UTC
+         * New York 12:00 + 5 hours (offset) = 17:00 UTC
+         * Now we can know the exact time in both locations, even if they are in different time zones, 
+         * because DateTimeOffset includes the offset from UTC, while DateTime does not.
+         */
+
+        DateTimeOffset nowUTC = DateTimeOffset.Now;
+
+        Console.WriteLine(nowUTC); // This will print the current date and time with the offset from UTC
+
+        // Create a DateTimeOffset for a specific date and time with a specific offset (Barcelona)
+        DateTimeOffset specificDateTimeOffsetBarcelona = new DateTimeOffset(2026, 02, 26, 14, 30, 0, TimeSpan.FromHours(1)); // This represents 26th February 2026 at 14:30 with an offset of +1 hour from UTC
+
+        // Create a DateTimeOffset for a specific date and time with a specific offset (New York)
+        DateTimeOffset specificDateTimeOffsetNewYork = new DateTimeOffset(2026, 02, 26, 14, 30, 0, TimeSpan.FromHours(-5)); // This represents 26th February 2026 at 14:30 with an offset of -5 hours from UTC
+
+        Console.WriteLine($"Barcelona: {specificDateTimeOffsetBarcelona}");
+        Console.WriteLine($"New York: {specificDateTimeOffsetNewYork}");
+
     }
 }
