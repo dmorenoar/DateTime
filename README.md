@@ -264,3 +264,97 @@ Console.WriteLine(
 Mostra el temps restant dividit en minuts i segons.
 
 ---
+
+# 🕒 DateTimeOffset en C#
+
+## 📌 Què és `DateTimeOffset`?
+
+`DateTimeOffset` és una estructura que representa un moment concret en el temps, 
+expressat com una data i hora amb un desfasament respecte a UTC (Temps Universal Coordinat).
+
+S’utilitza per representar dates i hores de manera independent dels fusos horaris.
+
+---
+
+## 🔎 Diferència entre `DateTime` i `DateTimeOffset`
+
+### 🟦 DateTime
+
+Barcelona → 18:00  
+New York → 12:00  
+
+Les dues hores representen el mateix moment real, però només veiem l’hora local.  
+No sabem el desfasament respecte a UTC.
+
+---
+
+### 🟩 DateTimeOffset
+
+Barcelona → 18:00 +01:00  
+New York → 12:00 -05:00  
+
+Ara sí sabem el desfasament respecte a UTC.
+
+Conversió a UTC:
+
+Barcelona → 18:00 - 1 hora = 17:00 UTC  
+New York → 12:00 + 5 hores = 17:00 UTC  
+
+Això demostra que és el mateix instant real en el temps.
+
+`DateTimeOffset` inclou l’offset.  
+`DateTime` no.
+
+---
+
+## 💻 Exemple de codi
+
+```csharp
+// DateTimeOffset is a structure that represents a point in time,
+// typically expressed as a date and time of day,
+// with an offset from Coordinated Universal Time (UTC).
+// It is used to represent dates and times in a way
+// that is independent of time zones.
+
+/* DateTime vs DateTimeOffset:
+ * DateTime -> Barcelona 18:00 / New York 12:00
+ * (both times are the same moment, but they are represented differently
+ * because they are in different time zones)
+ *
+ * DateTimeOffset -> Barcelona 18:00 +01:00 / New York 12:00 -05:00
+ * (both times are the same moment, but they are represented with their
+ * respective offsets from UTC, so we can know the exact time)
+ *
+ * Barcelona 18:00 - 1 hour (offset) = 17:00 UTC
+ * New York 12:00 + 5 hours (offset) = 17:00 UTC
+ *
+ * Now we can know the exact time in both locations,
+ * because DateTimeOffset includes the offset from UTC,
+ * while DateTime does not.
+ */
+
+DateTimeOffset nowUTC = DateTimeOffset.Now;
+
+Console.WriteLine(nowUTC);
+// This will print the current date and time with the offset from UTC
+
+// Create a DateTimeOffset for a specific date and time with a specific offset (Barcelona)
+DateTimeOffset specificDateTimeOffsetBarcelona =
+    new DateTimeOffset(2026, 02, 26, 14, 30, 0, TimeSpan.FromHours(1));
+// 26th February 2026 at 14:30 with an offset of +1 hour from UTC
+
+// Create a DateTimeOffset for a specific date and time with a specific offset (New York)
+DateTimeOffset specificDateTimeOffsetNewYork =
+    new DateTimeOffset(2026, 02, 26, 14, 30, 0, TimeSpan.FromHours(-5));
+// 26th February 2026 at 14:30 with an offset of -5 hours from UTC
+
+Console.WriteLine($"Barcelona: {specificDateTimeOffsetBarcelona}");
+Console.WriteLine($"New York: {specificDateTimeOffsetNewYork}");
+```
+
+---
+
+## 🎯 Idea clau
+
+`DateTimeOffset` = Data + Hora + Offset → Moment exacte en el temps.
+
